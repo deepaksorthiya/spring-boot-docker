@@ -4,4 +4,4 @@ ARG JAR_FILE='target/*.jar'
 
 COPY ${JAR_FILE} app.jar
 # Run the jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+ENTRYPOINT ["java","-jar","/app.jar"]
