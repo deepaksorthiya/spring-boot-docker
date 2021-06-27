@@ -1,3 +1,6 @@
 FROM openjdk:8-jdk-alpine
-COPY target/spring-boot-docker-0.0.1-SNAPSHOT.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Add jar file to container. JAR_FILE also provided as argument
+ARG JAR_FILE='target/*.jar'
+COPY ${JAR_FILE} app.jar
+# Run the jar
+ENTRYPOINT ["java","-javaagent:/sharedFiles/AppServerAgent/javaagent.jar","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
