@@ -1,0 +1,34 @@
+# Stage 1: Build Stage
+FROM bellsoft/liberica-runtime-container:jdk-24-stream-musl AS optimizer
+WORKDIR /workspace/app
+ADD . /workspace/app
+RUN chmod +x mvnw && ./mvnw -Dmaven.test.skip=true clean package
+
+# Stage 2: Layer Tool Stage
+# Perform the extraction in a separate builder container
+FROM bellsoft/liberica-runtime-container:jdk-24-cds-slim-musl AS builder
+WORKDIR /builder
+# This points to the built jar file in the target folder
+# Adjust this to 'build/libs/*.jar' if you're using Gradle
+# Copy the jar file to the working directory and rename it to application.jar
+COPY --from=optimizer /workspace/app/target/*.jar application.jar
+# Extract the jar file using an efficient layout
+RUN java -Djarmode=tools -jar application.jar extract --layers --destination extracted
+# Stage 3: Final Stage
+# This is the runtime container
+FROM bellsoft/liberica-runtime-container:jre-24-stream-musl
+WORKDIR /application
+# Copy the extracted jar contents from the builder container into the working directory in the runtime container
+# Every copy step creates a new docker layer
+# This allows docker to only pull the changes it really needs
+COPY --from=builder /builder/extracted/dependencies/ ./
+COPY --from=builder /builder/extracted/spring-boot-loader/ ./
+COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
+COPY --from=builder /builder/extracted/application/ ./
+# Execute the AOT cache training run
+RUN java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -Dspring.context.exit=onRefresh -jar application.jar
+RUN java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar application.jar && rm app.aotconf
+# Start the application jar with AOT cache enabled - this is not the uber jar used by the builder
+# This jar only contains application code and references to the extracted jar files
+# This layout is efficient to start up and AOT cache friendly
+ENTRYPOINT ["java", "-XX:AOTCache=app.aot", "-jar", "application.jar"]
