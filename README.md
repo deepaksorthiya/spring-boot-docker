@@ -3,11 +3,11 @@
 ## Requirements:
 
 ```
-Git: 2.47.0
-Spring Boot: 3.3.5
+Git: 2.47.1
+Spring Boot: 3.4.0
 Maven: 3.9+
 Java: 17
-Docker Engine: 25.0.2
+Docker Desktop: Tested on 4.36.0
 ```
 
 ### Clone this repository:
@@ -29,7 +29,7 @@ cd spring-boot-3-docker
 ### Rest APIs
 
 http://localhost:8080/ <br>
-http://localhost:8080/api/headers
+http://localhost:8080/server-info
 
 ### Reference Documentation
 

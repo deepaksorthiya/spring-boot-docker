@@ -15,9 +15,10 @@ on:
       - 'README.md'
       - '.gitignore'
       - 'docs/**'
-      - 'images/**' 
+      - 'images/**'
       - 'k8s/**'
       - 'docker-compose.yml'
+      - 'docker/**'
       - '.gitattributes'
   pull_request:
     branches: [ "main" ]

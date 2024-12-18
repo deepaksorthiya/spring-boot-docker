@@ -17,7 +17,7 @@ public class RestApiController {
 
     private final Logger logger = LoggerFactory.getLogger(RestApiController.class);
 
-    @GetMapping(value = {"/", "/api/headers"}, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = {"/", "/server-info"}, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> getRequestInfo(@RequestHeader Map<String, String> httpHeaders, HttpServletRequest httpServletRequest) {
         httpHeaders.put("remoteHost", httpServletRequest.getRemoteHost());
         httpHeaders.put("localAddress", httpServletRequest.getLocalAddr());
