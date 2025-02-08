@@ -6,10 +6,10 @@
 
 ```
 Git: 2.47.1
-Spring Boot: 3.4.1
+Spring Boot: 3.4.2
 Maven: 3.9+
 Java: 17
-Docker Desktop: Tested on 4.36.0
+Docker Desktop: Tested on 4.38.0
 ```
 
 ### Clone this repository:
