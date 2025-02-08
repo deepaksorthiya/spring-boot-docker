@@ -1,15 +1,21 @@
 [![Java Maven Build Test](https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-build.yml/badge.svg)](https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-build.yml)
 
+---
+
+### ** Spring Boot Rest API with Docker **
+
+---
+
 # Getting Started
 
 ## Requirements:
 
 ```
-Git: 2.47.1
-Spring Boot: 3.4.2
+Git: 2.49.0
+Spring Boot: 3.4.5
 Maven: 3.9+
-Java: 17
-Docker Desktop: Tested on 4.38.0
+Java: 21
+Docker Desktop: Tested on 4.41.0
 ```
 
 ### Clone this repository:
