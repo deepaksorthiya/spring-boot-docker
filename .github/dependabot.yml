@@ -5,7 +5,13 @@
 
 version: 2
 updates:
+  # Enable version updates for Maven
   - package-ecosystem: "maven" # See documentation for possible values
     directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  # Enable version updates for Github Action
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
       interval: "daily"
