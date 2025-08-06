@@ -1,10 +1,19 @@
-[![Java Maven Build Test](https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-build.yml/badge.svg)](https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-build.yml)
+<h1 style="text-align: center;">Spring Boot Docker Starter Project</h1>
 
----
-
-### ** Spring Boot Rest API with Docker **
-
----
+<p style="text-align: center;">
+  <a href="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-jvm-non-native-build.yml">
+    <img src="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-jvm-non-native-build.yml/badge.svg" alt="JVM Maven Build"/>
+  </a>  
+<a href="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-graalvm-native-build.yml">
+    <img src="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-graalvm-native-build.yml/badge.svg" alt="GraalVM Maven Build"/>
+  </a>
+  <a href="https://hub.docker.com/r/deepaksorthiya/spring-boot-3-docker">
+    <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-3-docker" alt="Docker"/>
+  </a>
+  <a href="https://spring.io/projects/spring-boot">
+    <img src="https://img.shields.io/badge/spring--boot-3.5.0-brightgreen?logo=springboot" alt="Spring Boot"/>
+  </a>
+</p>
 
 # Getting Started
 
@@ -12,10 +21,10 @@
 
 ```
 Git: 2.49.0
-Spring Boot: 3.4.5
+Spring Boot: 3.5.0
 Maven: 3.9+
-Java: 21
-Docker Desktop: Tested on 4.41.0
+Java: 24
+Docker Desktop: Tested on 4.42.0
 ```
 
 ### Clone this repository:
