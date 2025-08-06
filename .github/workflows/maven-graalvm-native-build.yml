@@ -19,6 +19,7 @@ on:
       - "k8s/**"
       - "docker-compose.yml"
       - "docker/**"
+      - ".dockerignore"
       - ".gitattributes"
   pull_request:
     branches: [ "main" ]

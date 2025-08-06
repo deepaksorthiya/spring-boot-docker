@@ -2,8 +2,8 @@
 name: Publish a Docker image to Github and DockerHub Using Dockerfile
 
 on:
-  release:
-    types: [ published ]
+  #  release:
+  #    types: [ published ]
   workflow_dispatch:
 
 jobs:

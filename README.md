@@ -43,10 +43,84 @@ cd spring-boot-3-docker
 ./mvnw clean spring-boot:build-image -DskipTests
 ```
 
+OR
+
+```bash
+docker build --progress=plain -t deepaksorthiya/spring-boot-docker .
+```
+
+### CDS Mode
+
+```bash
+./mvnw clean package -DskipTests
+```
+
+```bash
+java -Djarmode=tools -jar target/spring-boot-3-docker-0.0.1-SNAPSHOT.jar extract --destination application
+```
+
+```bash
+cd application
+```
+
+Training Run
+
+```bash
+java -XX:ArchiveClassesAtExit=application.jsa -D"spring.context.exit=onRefresh" -jar spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+```
+
+Production Run
+
+```bash
+java -XX:SharedArchiveFile=application.jsa -jar spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+```
+
+### AOT Mode
+
+```bash
+./mvnw clean package -DskipTests
+```
+
+```bash
+java -Djarmode=tools -jar target/spring-boot-3-docker-0.0.1-SNAPSHOT.jar extract --destination application
+```
+
+```bash
+cd application
+```
+
+```bash
+java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -D"spring.context.exit=onRefresh" -jar .\spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+```
+
+```bash
+java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar .\spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+```
+
+```bash
+java -XX:AOTCache=app.aot -jar .\spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+```
+
+```xml
+
+<env>
+    <!-- For native build -->
+    <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+    <!-- For cds-aot build -->
+    <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+    <BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
+    <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
+</env>
+```
+
 ### Rest APIs
 
 http://localhost:8080/ <br>
-http://localhost:8080/server-info
+http://localhost:8080/server-info <br>
+http://localhost:8080/rest-client <br>
+http://localhost:8080/rest-client-error <br>
+http://localhost:8080/rest-server-error <br>
+http://localhost:8080/rest-client-delay
 
 ### Reference Documentation
 
