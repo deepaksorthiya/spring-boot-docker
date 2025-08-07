@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>spring-boot-3-docker</artifactId>
+    <artifactId>spring-boot-docker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-boot-3-docker</name>
-    <description>Spring Boot 3 Docker Image Push to DockerHub and Github</description>
+    <name>spring-boot-docker</name>
+    <description>Spring Boot Docker Image Push to DockerHub and Github</description>
     <url/>
     <licenses>
         <license/>

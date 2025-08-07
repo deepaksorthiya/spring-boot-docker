@@ -1,14 +1,14 @@
 <h1 style="text-align: center;">Spring Boot Docker Starter Project</h1>
 
 <p style="text-align: center;">
-  <a href="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-jvm-non-native-build.yml">
-    <img src="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-jvm-non-native-build.yml/badge.svg" alt="JVM Maven Build"/>
+  <a href="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-jvm-non-native-build.yml">
+    <img src="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-jvm-non-native-build.yml/badge.svg" alt="JVM Maven Build"/>
   </a>  
-<a href="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-graalvm-native-build.yml">
-    <img src="https://github.com/deepaksorthiya/spring-boot-3-docker/actions/workflows/maven-graalvm-native-build.yml/badge.svg" alt="GraalVM Maven Build"/>
+<a href="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-graalvm-native-build.yml">
+    <img src="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-graalvm-native-build.yml/badge.svg" alt="GraalVM Maven Build"/>
   </a>
-  <a href="https://hub.docker.com/r/deepaksorthiya/spring-boot-3-docker">
-    <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-3-docker" alt="Docker"/>
+  <a href="https://hub.docker.com/r/deepaksorthiya/spring-boot-docker">
+    <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-docker" alt="Docker"/>
   </a>
   <a href="https://spring.io/projects/spring-boot">
     <img src="https://img.shields.io/badge/spring--boot-3.5.0-brightgreen?logo=springboot" alt="Spring Boot"/>
@@ -30,11 +30,11 @@ Docker Desktop: Tested on 4.42.0
 ### Clone this repository:
 
 ```bash
-git clone https://github.com/deepaksorthiya/spring-boot-3-docker.git
+git clone https://github.com/deepaksorthiya/spring-boot-docker.git
 ```
 
 ```bash
-cd spring-boot-3-docker
+cd spring-boot-docker
 ```
 
 ### Build Docker Image(docker should be running):
@@ -56,7 +56,7 @@ docker build --progress=plain -t deepaksorthiya/spring-boot-docker .
 ```
 
 ```bash
-java -Djarmode=tools -jar target/spring-boot-3-docker-0.0.1-SNAPSHOT.jar extract --destination application
+java -Djarmode=tools -jar target/spring-boot-docker-0.0.1-SNAPSHOT.jar extract --destination application
 ```
 
 ```bash
@@ -66,13 +66,13 @@ cd application
 Training Run
 
 ```bash
-java -XX:ArchiveClassesAtExit=application.jsa -D"spring.context.exit=onRefresh" -jar spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+java -XX:ArchiveClassesAtExit=application.jsa -D"spring.context.exit=onRefresh" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 Production Run
 
 ```bash
-java -XX:SharedArchiveFile=application.jsa -jar spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+java -XX:SharedArchiveFile=application.jsa -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ### AOT Mode
@@ -82,7 +82,7 @@ java -XX:SharedArchiveFile=application.jsa -jar spring-boot-3-docker-0.0.1-SNAPS
 ```
 
 ```bash
-java -Djarmode=tools -jar target/spring-boot-3-docker-0.0.1-SNAPSHOT.jar extract --destination application
+java -Djarmode=tools -jar target/spring-boot-docker-0.0.1-SNAPSHOT.jar extract --destination application
 ```
 
 ```bash
@@ -90,15 +90,15 @@ cd application
 ```
 
 ```bash
-java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -D"spring.context.exit=onRefresh" -jar .\spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -D"spring.context.exit=onRefresh" -jar .\spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ```bash
-java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar .\spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar .\spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ```bash
-java -XX:AOTCache=app.aot -jar .\spring-boot-3-docker-0.0.1-SNAPSHOT.jar
+java -XX:AOTCache=app.aot -jar .\spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ```xml
