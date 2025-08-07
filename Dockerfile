@@ -2,7 +2,7 @@
 FROM bellsoft/liberica-runtime-container:jdk-24-stream-musl AS optimizer
 WORKDIR /workspace/app
 ADD . /workspace/app
-RUN chmod +x mvnw && ./mvnw -Dmaven.test.skip=true clean package
+RUN chmod +x mvnw && ./mvnw -Dmaven.test.skip=true -Pnative clean package
 
 # Stage 2: Layer Tool Stage
 # Perform the extraction in a separate builder container
@@ -26,9 +26,11 @@ COPY --from=builder /builder/extracted/spring-boot-loader/ ./
 COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
 COPY --from=builder /builder/extracted/application/ ./
 # Execute the AOT cache training run
-RUN java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -Dspring.context.exit=onRefresh -jar application.jar
-RUN java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar application.jar && rm app.aotconf
+RUN java -Dspring.aot.enabled=true -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -Dspring.context.exit=onRefresh -jar application.jar
+RUN java -Dspring.aot.enabled=true -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar application.jar && rm app.aotconf
 # Start the application jar with AOT cache enabled - this is not the uber jar used by the builder
 # This jar only contains application code and references to the extracted jar files
 # This layout is efficient to start up and AOT cache friendly
-ENTRYPOINT ["java", "-XX:AOTCache=app.aot", "-jar", "application.jar"]
+ENTRYPOINT ["java", "-Dspring.aot.enabled=true", "-XX:AOTCache=app.aot", "-jar", "application.jar"]
+# EXPOSE PORT
+EXPOSE 8080

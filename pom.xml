@@ -67,14 +67,7 @@
                             is not support by this builder. Use Dockerfile to create small image
                         -->
                         <builder>bellsoft/buildpacks.builder:musl</builder>
-                        <env>
-                            <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-                            <BP_JVM_VERSION>24</BP_JVM_VERSION>
-                        </env>
                     </image>
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
                 </configuration>
             </plugin>
         </plugins>

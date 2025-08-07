@@ -37,22 +37,46 @@ git clone https://github.com/deepaksorthiya/spring-boot-docker.git
 cd spring-boot-docker
 ```
 
-### Build Docker Image(docker should be running):
+## Running Application In Different Mode and Startup Performance
 
-```bash
-./mvnw clean spring-boot:build-image -DskipTests
-```
+### 1. Exploded Jar
 
-OR
-
-```bash
-docker build --progress=plain -t deepaksorthiya/spring-boot-docker .
-```
-
-### CDS Mode
+Build Project
 
 ```bash
 ./mvnw clean package -DskipTests
+```
+
+Remove directory ``application`` if exists
+
+```bash
+rm -f -R application
+```
+
+Create Self Exploded Jar file
+
+```bash
+java -Djarmode=tools -jar target/spring-boot-docker-0.0.1-SNAPSHOT.jar extract --destination application
+```
+
+Run Self Exploded Jar file
+
+```bash
+java -jar .\application\spring-boot-docker-0.0.1-SNAPSHOT.jar
+```
+
+``
+Started Application in 2.309 seconds (process running for 2.54)
+``
+
+### 2. CDS Mode With Exploded Jar
+
+```bash
+./mvnw clean package -DskipTests
+```
+
+```bash
+rm -f -R application
 ```
 
 ```bash
@@ -75,10 +99,20 @@ Production Run
 java -XX:SharedArchiveFile=application.jsa -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
-### AOT Mode
+``
+Started Application in 1.338 seconds (process running for 1.487)
+``
+
+### 3. Spring-AOT + CDS
+
+Build Project With AOT mode
 
 ```bash
-./mvnw clean package -DskipTests
+./mvnw -Pnative -DskipTests clean package
+```
+
+```bash
+rm -f -R application
 ```
 
 ```bash
@@ -90,16 +124,70 @@ cd application
 ```
 
 ```bash
-java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -D"spring.context.exit=onRefresh" -jar .\spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:ArchiveClassesAtExit=application.jsa -D"spring.context.exit=onRefresh" -D"spring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ```bash
-java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar .\spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:SharedArchiveFile=application.jsa -D"spring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+```
+
+``
+Started Application in 0.92 seconds (process running for 1.066)
+``
+
+### 4. JDK 24 AOT-Cache(Successor of CDS) + Spring-AOT
+
+```bash
+./mvnw -Pnative -DskipTests clean package
 ```
 
 ```bash
-java -XX:AOTCache=app.aot -jar .\spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -Djarmode=tools -jar target/spring-boot-docker-0.0.1-SNAPSHOT.jar extract --destination application
 ```
+
+```bash
+cd application
+```
+
+Execute the AOT cache training run
+
+```bash
+java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -D"spring.aot.enabled=true" -D"spring.context.exit=onRefresh" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+```
+
+Create the AOT cache
+
+```bash
+java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -D"spring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+```
+
+Remove ``aotconf`` as its unnecessary now
+
+```bash
+rm app.aotconf
+```
+
+Run AOT cache enabled
+
+```bash
+java -XX:AOTCache=app.aot -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+```
+
+``
+Started Application in 0.817 seconds (process running for 0.988)
+``
+
+### 5. Project Leyden
+
+TBD
+
+[YouTube Video](https://www.youtube.com/watch?v=Gb4bFUs1GlY)
+
+### 6. GraalVM Native Mode
+
+[GraalVM Native Images](https://docs.spring.io/spring-boot/how-to/native-image/developing-your-first-application.html)
+
+## Buildpacks
 
 ```xml
 
@@ -111,6 +199,24 @@ java -XX:AOTCache=app.aot -jar .\spring-boot-docker-0.0.1-SNAPSHOT.jar
     <BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
     <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
 </env>
+
+<env>
+    <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+    <BP_JVM_VERSION>24</BP_JVM_VERSION>
+</env>
+
+```
+
+### Build Docker Image(docker should be running):
+
+```bash
+./mvnw clean spring-boot:build-image -DskipTests
+```
+
+OR for low image size
+
+```bash
+docker build --progress=plain -t deepaksorthiya/spring-boot-docker .
 ```
 
 ### Rest APIs
@@ -126,6 +232,9 @@ http://localhost:8080/rest-client-delay
 
 For further reference, please consider the following sections:
 
+* [Class Data Sharing](https://docs.spring.io/spring-boot/reference/packaging/class-data-sharing.html)
+* [Dockerfiles](https://docs.spring.io/spring-boot/reference/packaging/container-images/dockerfiles.html)
+* [CDS with Spring Boot](https://bell-sw.com/blog/how-to-use-cds-with-spring-boot-applications/)
 * [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
 * [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/maven-plugin)
 * [Create an OCI image](https://docs.spring.io/spring-boot/maven-plugin/build-image.html)
@@ -134,24 +243,4 @@ For further reference, please consider the following sections:
 * [Spring Data JPA](https://docs.spring.io/spring-boot/reference/data/sql.html#data.sql.jpa-and-spring-data)
 * [Validation](https://docs.spring.io/spring-boot//io/validation.html)
 * [Flyway Migration](https://docs.spring.io/spring-boot/how-to/data-initialization.html#howto.data-initialization.migration-tool.flyway)
-
-### Guides
-
-The following guides illustrate how to use some features concretely:
-
-* [Building a RESTful Web Service with Spring Boot Actuator](https://spring.io/guides/gs/actuator-service/)
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
-* [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
-* [Validation](https://spring.io/guides/gs/validating-form-input/)
-* [Accessing data with MySQL](https://spring.io/guides/gs/accessing-data-mysql/)
-
-### Maven Parent overrides
-
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the
-parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
 
