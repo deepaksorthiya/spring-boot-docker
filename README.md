@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-docker" alt="Docker"/>
   </a>
   <a href="https://spring.io/projects/spring-boot">
-    <img src="https://img.shields.io/badge/spring--boot-3.5.4-brightgreen?logo=springboot" alt="Spring Boot"/>
+    <img src="https://img.shields.io/badge/spring--boot-3.5.5-brightgreen?logo=springboot" alt="Spring Boot"/>
   </a>
 </p>
 
@@ -21,7 +21,7 @@
 
 ```
 Git: 2.49.0
-Spring Boot: 3.5.4
+Spring Boot: 3.5.5
 Maven: 3.9+
 Java: 24
 Docker Desktop: Tested on 4.42.0
@@ -187,6 +187,27 @@ TBD
 
 [GraalVM Native Images](https://docs.spring.io/spring-boot/how-to/native-image/developing-your-first-application.html)
 
+```bash
+./mvnw clean -Pnative -DskipTests native:compile
+```
+
+```bash
+./mvnw clean -Pnative spring-boot:build-image -DskipTests
+```
+
+[Image Optimization](https://www.graalvm.org/latest/reference-manual/native-image/guides/optimize-native-executable-with-pgo/)
+
+```xml
+
+<configuration>
+    <buildArgs>
+        <buildArg>--pgo</buildArg>
+        <buildArg>--gc=G1</buildArg>
+        <buildArg>-march=native</buildArg>
+    </buildArgs>
+</configuration>
+```
+
 ## Buildpacks
 
 ```xml
@@ -196,13 +217,12 @@ TBD
     <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
     <!-- For cds-aot build -->
     <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
-    <BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
     <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
 </env>
 
 <env>
-    <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-    <BP_JVM_VERSION>24</BP_JVM_VERSION>
+<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+<BP_JVM_VERSION>24</BP_JVM_VERSION>
 </env>
 
 ```

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.4</version>
+        <version>3.5.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
@@ -66,7 +66,17 @@
                             Remove this builder when building docker image using spring-boot:build-image as jdk24
                             is not support by this builder. Use Dockerfile to create small image
                         -->
+                        <!--
                         <builder>bellsoft/buildpacks.builder:musl</builder>
+                        <env>
+                            <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+                            <BP_JVM_VERSION>24</BP_JVM_VERSION>
+                            <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+                            <BPL_SPRING_AOT_ENABLED>true</BPL_SPRING_AOT_ENABLED>
+                            <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
+                            <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-march=native</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                        </env>
+                        -->
                     </image>
                 </configuration>
             </plugin>

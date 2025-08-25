@@ -16,11 +16,12 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 @RestController
 public class RestApiController {
 
-    private final Logger logger = LoggerFactory.getLogger(RestApiController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RestApiController.class);
     private final RestClient restClient;
 
     public RestApiController(RestClient.Builder builder) {
@@ -39,8 +40,18 @@ public class RestApiController {
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
-        logger.info("request headers :: {}", httpHeaders);
+        LOGGER.info("request headers :: {}", httpHeaders);
         return httpHeaders;
+    }
+
+    @GetMapping(value = "/env-vars", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> environmentVars() {
+        return System.getenv();
+    }
+
+    @GetMapping(value = "/sys-vars", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Properties systemVars() {
+        return System.getProperties();
     }
 
     @GetMapping(value = {"/rest-client"}, produces = MediaType.APPLICATION_JSON_VALUE)
