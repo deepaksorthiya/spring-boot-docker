@@ -66,7 +66,6 @@
                             Remove this builder when building docker image using spring-boot:build-image as jdk24
                             is not support by this builder. Use Dockerfile to create small image
                         -->
-                        <!--
                         <builder>bellsoft/buildpacks.builder:musl</builder>
                         <env>
                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
@@ -76,7 +75,6 @@
                             <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
                             <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-march=native</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
                         </env>
-                        -->
                     </image>
                 </configuration>
             </plugin>
