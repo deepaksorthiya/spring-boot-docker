@@ -195,6 +195,28 @@ TBD
 ./mvnw clean -Pnative spring-boot:build-image -DskipTests
 ```
 
+Enable Spring AOT 
+
+and add 
+
+```xml
+
+<BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
+<BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
+```
+
+```xml
+
+<executions>
+    <execution>
+        <id>process-aot</id>
+        <goals>
+            <goal>process-aot</goal>
+        </goals>
+    </execution>
+</executions>
+```
+
 [Image Optimization](https://www.graalvm.org/latest/reference-manual/native-image/guides/optimize-native-executable-with-pgo/)
 
 ```xml
