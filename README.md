@@ -185,7 +185,8 @@ TBD
 
 ### 6. GraalVM Native Mode
 
-[GraalVM Native Images](https://docs.spring.io/spring-boot/how-to/native-image/developing-your-first-application.html)
+* [GraalVM Native Images](https://docs.spring.io/spring-boot/how-to/native-image/developing-your-first-application.html)
+* [spring-boot-graalvm-native](https://github.com/deepaksorthiya/spring-boot-graalvm-native.git)
 
 ```bash
 ./mvnw clean -Pnative -DskipTests native:compile
@@ -195,9 +196,9 @@ TBD
 ./mvnw clean -Pnative spring-boot:build-image -DskipTests
 ```
 
-Enable Spring AOT 
+Enable Spring AOT
 
-and add 
+and add
 
 ```xml
 
@@ -260,6 +261,15 @@ OR for low image size
 
 ```bash
 docker build --progress=plain -t deepaksorthiya/spring-boot-docker .
+```
+
+OR Build Using Local Jar Path
+
+***you should be in jar file path to work build args***
+
+```bash
+cd target
+docker build --build-arg JAR_FILE=spring-boot-docker-0.0.1-SNAPSHOT.jar -f ./../Dockerfile.jvm --no-cache --progress=plain -t deepaksorthiya/spring-boot-docker .
 ```
 
 ### Rest APIs
