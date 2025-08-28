@@ -90,7 +90,7 @@ cd application
 Training Run
 
 ```bash
-java -XX:ArchiveClassesAtExit=application.jsa -D"spring.context.exit=onRefresh" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:ArchiveClassesAtExit=application.jsa "-Dspring.context.exit=onRefresh" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 Production Run
@@ -124,11 +124,11 @@ cd application
 ```
 
 ```bash
-java -XX:ArchiveClassesAtExit=application.jsa -D"spring.context.exit=onRefresh" -D"spring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:ArchiveClassesAtExit=application.jsa "-Dspring.context.exit=onRefresh" "-Dspring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ```bash
-java -XX:SharedArchiveFile=application.jsa -D"spring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:SharedArchiveFile=application.jsa "-Dspring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ``
@@ -152,13 +152,13 @@ cd application
 Execute the AOT cache training run
 
 ```bash
-java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -D"spring.aot.enabled=true" -D"spring.context.exit=onRefresh" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf "-Dspring.aot.enabled=true" "-Dspring.context.exit=onRefresh" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 Create the AOT cache
 
 ```bash
-java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -D"spring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot "-Dspring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 Remove ``aotconf`` as its unnecessary now
@@ -170,7 +170,7 @@ rm app.aotconf
 Run AOT cache enabled
 
 ```bash
-java -XX:AOTCache=app.aot -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
+java -XX:AOTCache=app.aot "-Dspring.aot.enabled=true" -jar spring-boot-docker-0.0.1-SNAPSHOT.jar
 ```
 
 ``
