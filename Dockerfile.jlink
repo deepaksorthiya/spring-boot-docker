@@ -1,0 +1,40 @@
+# First stage, build the custom JRE
+FROM eclipse-temurin:24-jdk-alpine AS jre-builder
+
+WORKDIR /ws-jre-builder
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} application.jar
+RUN apk update && apk add --no-cache tar binutils
+
+RUN jar xvf application.jar
+RUN jdeps --ignore-missing-deps -q  \
+    --recursive  \
+    --multi-release 24  \
+    --print-module-deps  \
+    --class-path 'BOOT-INF/lib/*'  \
+    application.jar > modules.txt
+
+# Build small JRE image
+RUN $JAVA_HOME/bin/jlink \
+         --verbose \
+         --add-modules $(cat modules.txt) \
+         --strip-debug \
+         --no-man-pages \
+         --no-header-files \
+         --compress=2 \
+         --output /optimized-jdk-24
+
+# Second stage, Use the custom JRE and build the app image
+FROM alpine:latest
+WORKDIR /application
+ENV JAVA_HOME=/opt/jdk/jdk-24
+ENV PATH="${JAVA_HOME}/bin:${PATH}"
+
+# copy JRE from the base image
+COPY --from=jre-builder /optimized-jdk-24 $JAVA_HOME
+
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} application.jar
+
+EXPOSE 8080
+ENTRYPOINT [ "java", "-jar", "application.jar" ]

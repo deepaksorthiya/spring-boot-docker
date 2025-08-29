@@ -1,6 +1,6 @@
 # Perform the extraction in a separate builder container
 FROM bellsoft/liberica-runtime-container:jdk-24-cds-slim-musl AS builder
-WORKDIR /builder
+WORKDIR /ws-builder
 # This points to the built jar file in the target folder
 # Adjust this to 'build/libs/*.jar' if you're using Gradle
 ARG JAR_FILE=target/*.jar
@@ -14,10 +14,10 @@ WORKDIR /application
 # Copy the extracted jar contents from the builder container into the working directory in the runtime container
 # Every copy step creates a new docker layer
 # This allows docker to only pull the changes it really needs
-COPY --from=builder /builder/extracted/dependencies/ ./
-COPY --from=builder /builder/extracted/spring-boot-loader/ ./
-COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
-COPY --from=builder /builder/extracted/application/ ./
+COPY --from=builder /ws-builder/extracted/dependencies/ ./
+COPY --from=builder /ws-builder/extracted/spring-boot-loader/ ./
+COPY --from=builder /ws-builder/extracted/snapshot-dependencies/ ./
+COPY --from=builder /ws-builder/extracted/application/ ./
 # Execute the AOT cache training run
 RUN java -Dspring.aot.enabled=true -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -Dspring.context.exit=onRefresh -jar application.jar
 RUN java -Dspring.aot.enabled=true -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar application.jar

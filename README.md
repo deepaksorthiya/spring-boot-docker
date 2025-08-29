@@ -257,13 +257,14 @@ and add
 ./mvnw clean spring-boot:build-image -DskipTests
 ```
 
-OR for low image size
+OR for low image size and multi-stage build
+(Run from workspace where Dockerfile is located)
 
 ```bash
 docker build --progress=plain -t deepaksorthiya/spring-boot-docker .
 ```
 
-OR Build Using Local Jar Path
+OR Build Using Local Fat Jar In Path ``target/spring-boot-docker-0.0.1-SNAPSHOT.jar``
 
 ***you should be in jar file path to work build args***
 
@@ -271,6 +272,10 @@ OR Build Using Local Jar Path
 cd target
 docker build --build-arg JAR_FILE=spring-boot-docker-0.0.1-SNAPSHOT.jar -f ./../Dockerfile.jvm --no-cache --progress=plain -t deepaksorthiya/spring-boot-docker .
 ```
+
+**_Note: In [Dockerfile.jlink](Dockerfile.jlink) check ``/optimized-jdk-24``. This will be created under OS root path
+while only``optimized-jdk-24`` (without slash) created path
+specified in ``WORKDIR``, Which is in this case ``/workspace/app``_**
 
 ### Rest APIs
 

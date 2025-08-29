@@ -1,17 +1,17 @@
 # Stage 1: Build Stage
-FROM bellsoft/liberica-runtime-container:jdk-24-stream-musl AS optimizer
-WORKDIR /workspace/app
-ADD . /workspace/app
-RUN chmod +x mvnw && ./mvnw -Dmaven.test.skip=true -Pnative clean package
+FROM bellsoft/liberica-runtime-container:jdk-24-stream-musl AS builder
+WORKDIR /ws-builder
+ADD . /ws-builder
+RUN chmod +x mvnw && ./mvnw -DskipTests -Pnative clean package
 
 # Stage 2: Layer Tool Stage
 # Perform the extraction in a separate builder container
-FROM bellsoft/liberica-runtime-container:jdk-24-cds-slim-musl AS builder
-WORKDIR /builder
+FROM bellsoft/liberica-runtime-container:jdk-24-cds-slim-musl AS optimizer
+WORKDIR /ws-optimizer
 # This points to the built jar file in the target folder
 # Adjust this to 'build/libs/*.jar' if you're using Gradle
 # Copy the jar file to the working directory and rename it to application.jar
-COPY --from=optimizer /workspace/app/target/*.jar application.jar
+COPY --from=builder /ws-builder/target/*.jar application.jar
 # Extract the jar file using an efficient layout
 RUN java -Djarmode=tools -jar application.jar extract --layers --destination extracted
 # Stage 3: Final Stage
@@ -21,10 +21,10 @@ WORKDIR /application
 # Copy the extracted jar contents from the builder container into the working directory in the runtime container
 # Every copy step creates a new docker layer
 # This allows docker to only pull the changes it really needs
-COPY --from=builder /builder/extracted/dependencies/ ./
-COPY --from=builder /builder/extracted/spring-boot-loader/ ./
-COPY --from=builder /builder/extracted/snapshot-dependencies/ ./
-COPY --from=builder /builder/extracted/application/ ./
+COPY --from=optimizer /ws-optimizer/extracted/dependencies/ ./
+COPY --from=optimizer /ws-optimizer/extracted/spring-boot-loader/ ./
+COPY --from=optimizer /ws-optimizer/extracted/snapshot-dependencies/ ./
+COPY --from=optimizer /ws-optimizer/extracted/application/ ./
 # Execute the AOT cache training run
 RUN java -Dspring.aot.enabled=true -XX:AOTMode=record -XX:AOTConfiguration=app.aotconf -Dspring.context.exit=onRefresh -jar application.jar
 RUN java -Dspring.aot.enabled=true -XX:AOTMode=create -XX:AOTConfiguration=app.aotconf -XX:AOTCache=app.aot -jar application.jar && rm app.aotconf
