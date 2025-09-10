@@ -35,6 +35,7 @@ COPY --from=jre-builder /optimized-jdk-24 $JAVA_HOME
 
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar
-
-EXPOSE 8080
+# Entrypoint for running application
 ENTRYPOINT [ "java", "-jar", "application.jar" ]
+# EXPOSE PORT
+EXPOSE 8080

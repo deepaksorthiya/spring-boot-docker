@@ -1,0 +1,17 @@
+# Using Oracle GraalVM for JDK 24
+FROM container-registry.oracle.com/graalvm/native-image:24 AS builder
+# Set the working directory to /home/app
+WORKDIR /ws-builder
+# Copy the source code into the image for building
+ADD . .
+# Build
+RUN chmod +x mvnw && ./mvnw --no-transfer-progress native:compile -Pnative -Dmaven.gitcommitid.skip=true -DskipTests
+# The deployment Image
+FROM quay.io/quarkus/ubi9-quarkus-micro-image:2.0
+WORKDIR /application
+# Copy the native executable into the containers
+COPY --from=builder /ws-builder/target/spring-boot-docker ./
+# entrypoint to start application
+ENTRYPOINT ["./spring-boot-docker"]
+# EXPOSE PORT
+EXPOSE 8080

@@ -257,14 +257,14 @@ and add
 ./mvnw clean spring-boot:build-image -DskipTests
 ```
 
-OR for low image size and multi-stage build
-(Run from workspace where Dockerfile is located)
+* OR for low image size and multi-stage build
+  (Run from workspace where Dockerfile is located)
 
 ```bash
-docker build --progress=plain -t deepaksorthiya/spring-boot-docker .
+docker build --progress=plain --no-cache -f <dockerfile> -t deepaksorthiya/spring-boot-docker .
 ```
 
-OR Build Using Local Fat Jar In Path ``target/spring-boot-docker-0.0.1-SNAPSHOT.jar``
+* OR Build Using Local Fat Jar In Path ``target/spring-boot-docker-0.0.1-SNAPSHOT.jar``
 
 ***you should be in jar file path to work build args***
 
@@ -272,6 +272,18 @@ OR Build Using Local Fat Jar In Path ``target/spring-boot-docker-0.0.1-SNAPSHOT.
 cd target
 docker build --build-arg JAR_FILE=spring-boot-docker-0.0.1-SNAPSHOT.jar -f ./../Dockerfile.jvm --no-cache --progress=plain -t deepaksorthiya/spring-boot-docker .
 ```
+
+| Dockerfile Name                                            |                          Description                           |
+|------------------------------------------------------------|:--------------------------------------------------------------:|    
+| [Dockerfile](Dockerfile)                                   |  multi stage docker file with Spring AOT and JDK24+ AOT Cache  |
+| [Dockerfile.jlink](Dockerfile.jlink)                       |      single stage using JDK jlink feature to reduce size       |
+| [Dockerfile.jvm](Dockerfile.jvm)                           |    single stage using with Spring AOT and JDK24+ AOT Cache     |
+| [Dockerfile.native](Dockerfile.native)                     |  single stage using graalvm native image using oraclelinux 9   |
+| [Dockerfile.native-distro](Dockerfile.native-distro)       | single stage using graalvm native image distroless linux image |
+| [Dockerfile.native-micro](Dockerfile.native-micro)         |   single stage using graalvm native image micro linux image    |
+| [Dockerfile.native-multi](Dockerfile.native-multi)         |    multi stage using graalvm native image micro linux image    |
+| [Dockerfile.springlayeredjar](Dockerfile.springlayeredjar) |          multi stage using spring layererd layout jar          |
+| [Dockerfile.springlayoutjar](Dockerfile.springlayoutjar)   |              multi stage using spring layout jar               |
 
 **_Note: In [Dockerfile.jlink](Dockerfile.jlink) check ``/optimized-jdk-24``. This will be created under OS root path
 while only``optimized-jdk-24`` (without slash) created path

@@ -1,0 +1,30 @@
+# Stage 1: Build Stage
+FROM bellsoft/liberica-runtime-container:jdk-24-stream-musl AS builder
+
+WORKDIR /ws-builder
+ADD . .
+RUN  chmod +x mvnw && ./mvnw -DskipTests -Dmaven.gitcommitid.skip=true clean package
+
+# Stage 2: Layer Tool Stage
+FROM bellsoft/liberica-runtime-container:jdk-24-cds-slim-musl AS optimizer
+WORKDIR /ws-optimizer
+COPY --from=builder /ws-builder/target/*.jar application.jar
+# Extract the jar file using an efficient layout and generate launcher
+RUN java -Djarmode=tools -jar application.jar extract --layers --launcher
+
+# Stage 3: Final Stage
+FROM bellsoft/liberica-runtime-container:jre-24-stream-musl
+WORKDIR /application
+# Copy the extracted jar contents from the builder container into the working directory in the runtime container
+# Every copy step creates a new docker layer
+# This allows docker to only pull the changes it really needs
+COPY --from=optimizer /ws-optimizer/application/dependencies/ ./
+COPY --from=optimizer /ws-optimizer/application/spring-boot-loader/ ./
+COPY --from=optimizer /ws-optimizer/application/snapshot-dependencies/ ./
+COPY --from=optimizer /ws-optimizer/application/application/ ./
+# Start the application jar - this is not the uber jar used by the builder
+# This jar only contains application code and references to the extracted jar files
+# This layout is efficient to start up and CDS/AOT cache friendly
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
+# EXPOSE PORT
+EXPOSE 8080
