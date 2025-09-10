@@ -266,11 +266,23 @@ docker build --progress=plain --no-cache -f <dockerfile> -t deepaksorthiya/sprin
 
 * OR Build Using Local Fat Jar In Path ``target/spring-boot-docker-0.0.1-SNAPSHOT.jar``
 
+```bash
+docker build --build-arg JAR_FILE=target/spring-boot-docker-0.0.1-SNAPSHOT.jar -f Dockerfile.jvm --no-cache --progress=plain -t deepaksorthiya/spring-boot-docker .
+```
+
+* OR if above not work try below command
+
 ***you should be in jar file path to work build args***
 
 ```bash
 cd target
 docker build --build-arg JAR_FILE=spring-boot-docker-0.0.1-SNAPSHOT.jar -f ./../Dockerfile.jvm --no-cache --progress=plain -t deepaksorthiya/spring-boot-docker .
+```
+
+* Run In Docker Container
+
+```bash
+docker run -p 8080:8080 --name spring-boot-docker -it deepaksorthiya/spring-boot-docker
 ```
 
 | Dockerfile Name                                            |                          Description                           |
