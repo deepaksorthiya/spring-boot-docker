@@ -1,5 +1,5 @@
 # First stage, build the custom JRE
-FROM eclipse-temurin:24-jdk-alpine AS jre-builder
+FROM eclipse-temurin:25-jdk-alpine AS jre-builder
 
 WORKDIR /ws-jre-builder
 ARG JAR_FILE=target/*.jar
