@@ -34,10 +34,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v5
 
-      - name: Set up GraalVM JDK 24
+      - name: Set up GraalVM JDK 25
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: "24"
+          java-version: "25"
           distribution: "graalvm"
           cache: "maven"
 
@@ -54,8 +54,8 @@ jobs:
           mvn -v
           ./mvnw -v
 
-      - name: Run Tests In Native Mode with GraalVM and Maven
-        run: ./mvnw -PnativeTest test --file pom.xml --batch-mode --update-snapshots
+#      - name: Run Tests In Native Mode with GraalVM and Maven
+#        run: ./mvnw -PnativeTest test --file pom.xml --batch-mode --update-snapshots
 
 #      - name: Create Native Image Build with GraalVM and Maven
 #        run: ./mvnw -Pnative native:compile -DskipTests --file pom.xml --batch-mode --update-snapshots

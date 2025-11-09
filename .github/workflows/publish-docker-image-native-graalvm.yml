@@ -24,10 +24,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v5
 
-      - name: Set up GraalVM JDK 24
+      - name: Set up GraalVM JDK 25
         uses: graalvm/setup-graalvm@v1
         with:
-          java-version: '24'
+          java-version: '25'
           distribution: 'graalvm'
 
       - name: Check Java Version and Check Tag

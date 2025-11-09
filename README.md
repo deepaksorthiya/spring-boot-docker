@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-docker" alt="Docker"/>
   </a>
   <a href="https://spring.io/projects/spring-boot">
-    <img src="https://img.shields.io/badge/spring--boot-3.5.5-brightgreen?logo=springboot" alt="Spring Boot"/>
+    <img src="https://img.shields.io/badge/spring--boot-3.5.7-brightgreen?logo=springboot" alt="Spring Boot"/>
   </a>
 </p>
 
@@ -21,10 +21,10 @@
 
 ```
 Git: 2.49.0
-Spring Boot: 3.5.5
+Spring Boot: 3.5.7
 Maven: 3.9+
-Java: 24
-Docker Desktop: Tested on 4.42.0
+Java: 25
+Docker Desktop: Tested on 4.45.0
 ```
 
 ### Clone this repository:
@@ -135,7 +135,7 @@ java -XX:SharedArchiveFile=application.jsa "-Dspring.aot.enabled=true" -jar spri
 Started Application in 0.92 seconds (process running for 1.066)
 ``
 
-### 4. JDK 24 AOT-Cache(Successor of CDS) + Spring-AOT
+### 4. JDK 24+ AOT-Cache(Successor of CDS) + Spring-AOT
 
 ```bash
 ./mvnw -Pnative -DskipTests clean package
@@ -245,7 +245,7 @@ and add
 
 <env>
 <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-<BP_JVM_VERSION>24</BP_JVM_VERSION>
+<BP_JVM_VERSION>25</BP_JVM_VERSION>
 <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-march=native</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
 </env>
 
@@ -297,8 +297,8 @@ docker run -p 8080:8080 --name spring-boot-docker -it deepaksorthiya/spring-boot
 | [Dockerfile.springlayeredjar](Dockerfile.springlayeredjar) |          multi stage using spring layererd layout jar          |
 | [Dockerfile.springlayoutjar](Dockerfile.springlayoutjar)   |              multi stage using spring layout jar               |
 
-**_Note: In [Dockerfile.jlink](Dockerfile.jlink) check ``/optimized-jdk-24``. This will be created under OS root path
-while only``optimized-jdk-24`` (without slash) created path
+**_Note: In [Dockerfile.jlink](Dockerfile.jlink) check ``/optimized-jdk-25``. This will be created under OS root path
+while only``optimized-jdk-25`` (without slash) created path
 specified in ``WORKDIR``, Which is in this case ``/workspace/app``_**
 
 ### Rest APIs
