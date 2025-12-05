@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-docker" alt="Docker"/>
   </a>
   <a href="https://spring.io/projects/spring-boot">
-    <img src="https://img.shields.io/badge/spring--boot-3.5.7-brightgreen?logo=springboot" alt="Spring Boot"/>
+    <img src="https://img.shields.io/badge/spring--boot-4.0.0-brightgreen?logo=springboot" alt="Spring Boot"/>
   </a>
 </p>
 
@@ -20,11 +20,11 @@
 ## Requirements:
 
 ```
-Git: 2.49.0
-Spring Boot: 3.5.7
+Git: 2.52+
+Spring Boot: 4.0.0
 Maven: 3.9+
 Java: 25
-Docker Desktop: Tested on 4.45.0
+Docker Desktop: Tested on 4.53.0
 ```
 
 ### Clone this repository:
