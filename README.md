@@ -2,16 +2,16 @@
 
 <p style="text-align: center;">
   <a href="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-jvm-non-native-build.yml">
-    <img src="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-jvm-non-native-build.yml/badge.svg" alt="JVM Maven Build"/>
+    <img src="https://img.shields.io/github/actions/workflow/status/deepaksorthiya/spring-boot-docker/maven-jvm-non-native-build.yml?style=for-the-badge&label=JVM%20Maven%20Build" alt="JVM Maven Build"/>
   </a>  
-<a href="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-graalvm-native-build.yml">
-    <img src="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-graalvm-native-build.yml/badge.svg" alt="GraalVM Maven Build"/>
+  <a href="https://github.com/deepaksorthiya/spring-boot-docker/actions/workflows/maven-graalvm-native-build.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/deepaksorthiya/spring-boot-docker/maven-graalvm-native-build.yml?style=for-the-badge&label=GraalVM%20Maven%20Build" alt="GraalVM Maven Build"/>
   </a>
   <a href="https://hub.docker.com/r/deepaksorthiya/spring-boot-docker">
-    <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-docker" alt="Docker"/>
+    <img src="https://img.shields.io/docker/pulls/deepaksorthiya/spring-boot-docker?style=for-the-badge" alt="Docker"/>
   </a>
   <a href="https://spring.io/projects/spring-boot">
-    <img src="https://img.shields.io/badge/spring--boot-4.0.0-brightgreen?logo=springboot" alt="Spring Boot"/>
+    <img src="https://img.shields.io/badge/spring--boot-4.0.2-brightgreen?logo=springboot&style=for-the-badge" alt="Spring Boot"/>
   </a>
 </p>
 
@@ -20,11 +20,11 @@
 ## Requirements:
 
 ```
-Git: 2.52+
-Spring Boot: 4.0.0
+Git: 2.51+
+Spring Boot: 4.0.2
 Maven: 3.9+
 Java: 25
-Docker Desktop: Tested on 4.53.0
+Docker Desktop: Tested on 4.50+
 ```
 
 ### Clone this repository:
