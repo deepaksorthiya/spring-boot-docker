@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.3</version>
+        <version>4.1.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
@@ -72,7 +72,6 @@
                             <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
                             <BP_JVM_VERSION>${java.version}</BP_JVM_VERSION>
                             <BP_SPRING_AOT_ENABLED>true</BP_SPRING_AOT_ENABLED>
-                            <BP_JVM_CDS_ENABLED>true</BP_JVM_CDS_ENABLED>
                         </env>
                     </image>
                 </configuration>
