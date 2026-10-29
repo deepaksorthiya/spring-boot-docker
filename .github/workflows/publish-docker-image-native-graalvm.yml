@@ -30,6 +30,10 @@ jobs:
           java-version: '25'
           distribution: 'graalvm'
 
+      - name: Set Execution Permission
+        run: |
+          chmod +x mvnw
+
       - name: Check Java Version and Check Tag
         run: |
           echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
